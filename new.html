@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Process Scheduling Simulator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen text-white font-sans flex items-center justify-center p-6">
+  <div class="bg-gray-950 w-full max-w-5xl rounded-2xl shadow-2xl p-10">
+    <h1 class="text-3xl font-extrabold text-center mb-10 text-green-400">Process Scheduling Simulator</h1>
+
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+      <div>
+        <label class="block text-sm font-semibold mb-1">Process ID</label>
+        <input id="pid" type="text" class="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Algorithm</label>
+        <select id="algorithm" class="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+          <option value="FCFS">FCFS</option>
+          <option value="SJF">SJF</option>
+          <option value="Priority">Priority</option>
+          <option value="RR">Round Robin</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Burst Time</label>
+        <input id="burstTime" type="number" class="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Time Quantum</label>
+        <input id="timeQuantum" type="number" value="2" class="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Arrival Time</label>
+        <input id="arrivalTime" type="number" class="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Priority (lower = higher)</label>
+        <input id="priority" type="number" class="w-full p-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400" />
+      </div>
+    </div>
+
+    <div class="flex gap-4 mb-8">
+      <button onclick="addProcess()" class="bg-blue-600 hover:bg-blue-700 transition-colors text-white py-2 px-6 rounded-lg font-semibold">Add Process</button>
+      <button onclick="simulate()" class="bg-green-600 hover:bg-green-700 transition-colors text-white py-2 px-6 rounded-lg font-semibold flex-grow">Simulate</button>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-semibold text-green-400 mb-2">Process Table</h2>
+      <table class="w-full mb-6 table-auto text-left border-collapse">
+        <thead class="bg-green-700 text-white">
+          <tr>
+            <th class="p-2">PID</th>
+            <th class="p-2">Burst Time</th>
+            <th class="p-2">Arrival Time</th>
+            <th class="p-2">Priority</th>
+          </tr>
+        </thead>
+        <tbody id="processTable" class="bg-gray-800 text-gray-200"></tbody>
+      </table>
+
+      <h2 class="text-2xl font-semibold text-green-400 mb-2">Gantt Chart</h2>
+      <div id="ganttChart" class="flex items-center mb-6 text-sm font-mono text-black"></div>
+
+      <h2 class="text-2xl font-semibold text-green-400 mb-2">Results</h2>
+      <table class="w-full table-auto text-left border-collapse">
+        <thead class="bg-green-700 text-white">
+          <tr>
+            <th class="p-2">PID</th>
+            <th class="p-2">Waiting Time</th>
+            <th class="p-2">Turnaround Time</th>
+          </tr>
+        </thead>
+        <tbody id="resultTable" class="bg-gray-800 text-gray-200"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const processes = [];
+
+    function addProcess() {
+      const pid = document.getElementById('pid').value;
+      const burstTime = parseInt(document.getElementById('burstTime').value);
+      const arrivalTime = parseInt(document.getElementById('arrivalTime').value);
+      const priority = parseInt(document.getElementById('priority').value);
+
+      if (!pid || isNaN(burstTime) || isNaN(arrivalTime)) return alert("Please fill all required fields.");
+
+      processes.push({ pid, burstTime, arrivalTime, priority });
+      displayProcessTable();
+    }
+
+    function displayProcessTable() {
+      const table = document.getElementById('processTable');
+      table.innerHTML = '';
+      for (const p of processes) {
+        table.innerHTML += `<tr>
+          <td class='p-2'>${p.pid}</td>
+          <td class='p-2'>${p.burstTime}</td>
+          <td class='p-2'>${p.arrivalTime}</td>
+          <td class='p-2'>${p.priority ?? '-'}</td>
+        </tr>`;
+      }
+    }
+
+    function simulate() {
+      const algo = document.getElementById('algorithm').value;
+      const timeQuantum = parseInt(document.getElementById('timeQuantum').value);
+
+      if (algo === 'FCFS') simulateFCFS();
+      else alert(`${algo} is not implemented yet.`);
+    }
+
+    function simulateFCFS() {
+      processes.sort((a, b) => a.arrivalTime - b.arrivalTime);
+      let currentTime = 0;
+      const results = [];
+      const gantt = [];
+
+      for (const p of processes) {
+        if (currentTime < p.arrivalTime) currentTime = p.arrivalTime;
+        const startTime = currentTime;
+        const waitingTime = currentTime - p.arrivalTime;
+        const turnaroundTime = waitingTime + p.burstTime;
+        currentTime += p.burstTime;
+        gantt.push({ pid: p.pid, start: startTime, end: currentTime });
+        results.push({ pid: p.pid, waitingTime, turnaroundTime });
+      }
+
+      displayResults(results);
+      displayGanttChart(gantt);
+    }
+
+    function displayResults(results) {
+      const table = document.getElementById('resultTable');
+      table.innerHTML = '';
+      for (const r of results) {
+        table.innerHTML += `<tr>
+          <td class='p-2'>${r.pid}</td>
+          <td class='p-2'>${r.waitingTime}</td>
+          <td class='p-2'>${r.turnaroundTime}</td>
+        </tr>`;
+      }
+    }
+
+    function displayGanttChart(gantt) {
+      const container = document.getElementById('ganttChart');
+      container.innerHTML = '';
+      for (const g of gantt) {
+        const box = document.createElement('div');
+        box.className = 'bg-green-400 text-black p-2 m-1 rounded shadow';
+        box.innerText = `${g.pid}\n[${g.start}-${g.end}]`;
+        container.appendChild(box);
+      }
+    }
+  </script>
+</body>
+</html>

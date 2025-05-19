@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Process Scheduling Simulator</title>
+  <style>
+    /* Basic Reset */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f7f9fc;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #007acc;
+    }
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    /* Form Styles */
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+      align-items: flex-end;
+    }
+    form > div {
+      flex: 1 1 150px;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #555;
+    }
+    input[type="text"],
+    input[type="number"],
+    select {
+      padding: 8px 10px;
+      border: 1.5px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      border-color: #007acc;
+      outline: none;
+    }
+    button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-weight: 600;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    /* Process List Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+    }
+    th, td {
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+      font-size: 14px;
+    }
+    th {
+      background-color: #007acc;
+      color: white;
+    }
+    /* Gantt Chart Container */
+    .gantt-container {
+      margin-top: 30px;
+    }
+    .gantt-chart {
+      display: flex;
+      align-items: center;
+      height: 50px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      overflow-x: auto;
+      background-color: #f0f4f8;
+    }
+    .gantt-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      color: white;
+      font-weight: 700;
+      border-right: 1px solid #fff;
+      user-select: none;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Process Scheduling Simulator</h1>
+
+    <form id="process-form">
+      <div>
+        <label for="process-id">Process ID</label>
+        <input type="text" id="process-id" placeholder="e.g. P1" required />
+      </div>
+      <div>
+        <label for="arrival-time">Arrival Time</label>
+        <input type="number" id="arrival-time" min="0" value="0" required />
+      </div>
+      <div>
+        <label for="burst-time">Burst Time</label>
+        <input type="number" id="burst-time" min="1" value="1" required />
+      </div>
+      <div>
+        <label for="priority">Priority (optional)</label>
+        <input type="number" id="priority" min="1" placeholder="Lower = higher priority" />
+      </div>
+      <div style="flex: 0 0 120px;">
+        <button type="submit">Add Process</button>
+      </div>
+    </form>
+
+    <div style="margin-bottom: 20px;">
+      <label for="algorithm-select" style="font-weight: 600;">Select Scheduling Algorithm:</label>
+      <select id="algorithm-select" style="padding: 8px 10px; font-size: 14px; margin-left: 10px;">
+        <option value="fcfs">First-Come, First-Served (FCFS)</option>
+        <option value="sjfNonPreemptive">Shortest Job First (SJF) Non-preemptive</option>
+        <option value="roundRobin">Round Robin (RR)</option>
+        <option value="priorityNonPreemptive">Priority Scheduling Non-preemptive</option>
+      </select>
+      <input type="number" id="quantum" min="1" value="2" placeholder="Quantum (for RR)" style="width: 120px; margin-left: 15px; display:none;" />
+    </div>
+
+    <div>
+      <button id="run-btn">Run Scheduling</button>
+      <button id="reset-btn" style="background-color: #f44336; margin-left: 10px;">Reset</button>
+    </div>
+
+    <hr style="margin: 30px 0;" />
+
+    <h2>Process List</h2>
+    <table id="process-table">
+      <thead>
+        <tr>
+          <th>Process ID</th>
+          <th>Arrival Time</th>
+          <th>Burst Time</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Process rows will be added here -->
+      </tbody>
+    </table>
+
+    <div class="gantt-container">
+      <h2>Gantt Chart</h2>
+      <div class="gantt-chart" id="gantt-chart">
+        <!-- Gantt bars go here -->
+      </div>
+    </div>
+
+    <div style="margin-top: 30px;">
+      <h2>Results</h2>
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>Process ID</th>
+            <th>Arrival Time</th>
+            <th>Burst Time</th>
+            <th>Completion Time</th>
+            <th>Waiting Time</th>
+            <th>Turnaround Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Result rows will be added here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+   <script src="roundrobin.js"></script>
+</body>
+</html>
