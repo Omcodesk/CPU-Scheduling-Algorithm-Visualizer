@@ -1,38 +1,64 @@
-# Process Scheduling Simulator 🚀
+<div align="center">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+  <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
+  <h1>🚀 CPU Process Scheduling Visualizer</h1>
+  <p><strong>A highly interactive, beautifully designed visualization tool for Operating System scheduling algorithms.</strong></p>
+  <a href="https://omcodesk.github.io/CPU-Scheduling-Algorithm-Visualizer/"><strong>View Live Demo »</strong></a>
+</div>
 
-A sleek, modern, and interactive Process Scheduling Simulator built with HTML, CSS, and vanilla JavaScript. This tool helps visualize how different CPU scheduling algorithms work behind the scenes in operating systems.
+<br />
 
-## ✨ Features
+## 🌟 About The Project
 
-- **Futuristic UI**: Beautiful dark-mode design with glowing, animated grids and crisp typography.
-- **Dynamic Gantt Chart**: Visualizes the execution of processes over time, including precise time-slicing for Round Robin.
-- **Detailed Metrics**: Automatically calculates Completion Time, Waiting Time, and Turnaround Time for every process.
-- **Responsive & Fast**: Completely client-side execution with fast-forwarding capabilities to minimize simulated idle time.
+Operating Systems rely heavily on CPU Scheduling algorithms to ensure optimal performance and fair distribution of resources among processes. **CPU Process Scheduling Visualizer** brings these abstract mathematical concepts to life! 
+
+With a futuristic, dark-mode UI, you can manually input processes, choose your scheduling algorithm, and instantly generate **Gantt Charts** and **Performance Metrics** (Waiting Time, Turnaround Time, Completion Time).
+
+### ✨ Key Features
+- 🎨 **Stunning UI/UX**: Custom-designed dark mode with glowing animated grid backgrounds.
+- 📊 **Dynamic Gantt Charts**: Watch how processes are sliced and executed over time.
+- ⚡ **Lightning Fast Engine**: Client-side JavaScript ensures instant calculations with zero server lag.
+- 📐 **Accurate Metrics**: Automatically calculates critical OS data metrics like average waiting and turnaround times.
+
+---
 
 ## 🧠 Supported Algorithms
 
-1. **FCFS (First Come First Serve)**: Non-preemptive scheduling based purely on arrival time.
-2. **SJF (Shortest Job First)**: Non-preemptive scheduling that prioritizes the shortest remaining burst time.
-3. **Priority**: Non-preemptive scheduling that runs processes based on a user-defined priority level (lower number = higher priority).
-4. **Round Robin**: Preemptive scheduling that executes processes in a cyclic order using a fixed Time Quantum.
+| Algorithm | Type | Description |
+| :--- | :--- | :--- |
+| **FCFS** *(First Come First Serve)* | Non-Preemptive | The simplest algorithm. Processes are executed exactly in the order they arrive in the ready queue. |
+| **SJF** *(Shortest Job First)* | Non-Preemptive | The CPU is assigned to the process with the smallest execution (burst) time to minimize average waiting time. |
+| **Priority** | Non-Preemptive | Processes are scheduled based on an assigned priority number (lower number = higher priority). |
+| **Round Robin** | Preemptive | Processes execute in a cyclic order for a fixed time slice (quantum) to ensure fairness and prevent starvation. |
 
-## 💻 How to Use
+---
 
-1. Open `index.html` in your favorite web browser.
-2. Enter your process details in the form:
-   - **Process ID** (e.g., P1)
-   - **Arrival Time** (e.g., 0)
-   - **Burst Time** (e.g., 5)
-   - **Priority** (Optional, required for Priority Scheduling)
-3. Click **Add Process** to populate the queue.
-4. Select your desired scheduling algorithm from the dropdown. 
-   - *If Round Robin is selected, enter the Time Quantum.*
-5. Click **Run** to generate the Process Results table and visualize the timeline on the Gantt chart.
+## 🚀 How to Use
 
-## 🛠️ Built With
-- **HTML5**
-- **CSS3** (Keyframe animations, Flexbox, Gradients)
-- **Vanilla JavaScript (ES6)**
+1. **Visit the Live Site**: [Open the Simulator](https://omcodesk.github.io/CPU-Scheduling-Algorithm-Visualizer/)
+2. **Input Processes**: Enter your Process IDs, Arrival Times, and Burst Times. (Add Priorities if using Priority Scheduling).
+3. **Select Algorithm**: Pick your desired scheduling algorithm from the dropdown. If you choose *Round Robin*, don't forget to enter a **Time Quantum**.
+4. **Execute**: Click **Run** to generate the Process Results table and visualize the timeline on the Gantt chart!
 
-## 📝 License
-This project is open-source and available for educational purposes.
+---
+
+## 💻 Local Installation
+
+If you'd like to run this locally or contribute to the project:
+
+```bash
+# Clone the repository
+git clone https://github.com/Omcodesk/CPU-Scheduling-Algorithm-Visualizer.git
+
+# Navigate into the directory
+cd CPU-Scheduling-Algorithm-Visualizer
+
+# Open index.html in your default browser
+```
+
+---
+
+<div align="center">
+  <i>Built with ❤️ by <a href="https://github.com/Omcodesk">Omcodesk</a></i>
+</div>
