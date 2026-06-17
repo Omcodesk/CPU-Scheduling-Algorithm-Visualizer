@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Process Scheduling Simulator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background layers -->
+  <div class="background-grid"></div>
+  <div class="background-lines"></div>
+
+  <h2>Process Scheduling Simulator</h2>
+
+  <form id="process-form">
+    <input id="process-id" placeholder="Process ID" required />
+    <input id="arrival-time" type="number" min="0" value="0" required placeholder="Arrival Time" />
+    <input id="burst-time" type="number" min="1" value="1" required placeholder="Burst Time" />
+    <input id="priority" type="number" placeholder="Priority (Optional)" />
+    <select id="algorithm-select">
+      <option value="fcfs">FCFS</option>
+      <option value="sjf">SJF</option>
+      <option value="priority">Priority</option>
+      <option value="roundRobin">Round Robin</option>
+    </select>
+    <span id="quantum-wrapper">
+      <input id="quantum" type="number" placeholder="Quantum Time" min="1" />
+    </span>
+    <button type="submit">Add Process</button>
+  </form>
+
+  <div style="text-align: center;">
+    <button id="run-btn">Run</button>
+    <button id="reset-btn">Reset</button>
+  </div>
+
+  <h3>Process Table</h3>
+  <table id="process-table">
+    <thead>
+      <tr><th>ID</th><th>Arrival</th><th>Burst</th><th>Priority</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h3>Results</h3>
+  <table id="result-table">
+    <thead>
+      <tr><th>ID</th><th>Arrival</th><th>Burst</th><th>Completion</th><th>Waiting</th><th>Turnaround</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h3>Gantt Chart</h3>
+  <div id="gantt-chart"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

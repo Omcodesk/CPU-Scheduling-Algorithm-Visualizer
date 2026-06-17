@@ -1,0 +1,132 @@
+/* Futuristic Technical Background */
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  color: #eee;
+  position: relative;
+  background: #0a0f1a;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+/* Glowing animated grid */
+.background-grid {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    linear-gradient(rgba(0, 255, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 10s linear infinite;
+  z-index: -1;
+}
+
+/* Subtle glowing lines */
+.background-lines {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    repeating-linear-gradient(45deg, #00fff7, #00fff7 2px, transparent 2px, transparent 15px),
+    repeating-linear-gradient(-45deg, #00d8cc, #00d8cc 2px, transparent 2px, transparent 15px);
+  opacity: 0.1;
+  animation: linesGlow 6s ease-in-out infinite alternate;
+  z-index: -2;
+}
+
+@keyframes gridMove {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 50px 50px, 50px 50px; }
+}
+
+@keyframes linesGlow {
+  from { opacity: 0.1; }
+  to { opacity: 0.25; }
+}
+
+h2, h3 {
+  text-align: center;
+  color: #00e5ff;
+  text-shadow: 0 0 8px #00e5ff;
+}
+
+form, table, #gantt-chart {
+  background: rgba(10, 15, 26, 0.85);
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+  max-width: 800px;
+  color: #e0f7fa;
+}
+
+form input, select, button {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 4px;
+  border: 1px solid #00e5ff;
+  font-size: 14px;
+  background: #022c3f;
+  color: #b2ebf2;
+  transition: background-color 0.3s ease;
+}
+
+form input:focus, select:focus {
+  background-color: #00bcd4;
+  color: #012f3f;
+  outline: none;
+  border-color: #00e5ff;
+  box-shadow: 0 0 8px #00e5ff;
+}
+
+button {
+  background-color: #00e5ff;
+  color: #012f3f;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #00acc1;
+  color: #e0f7fa;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #b2ebf2;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #004d40;
+}
+
+th {
+  background-color: #00e5ff;
+  color: #012f3f;
+  text-shadow: none;
+}
+
+#gantt-chart {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.gantt-block {
+  background-color: #00e676;
+  color: #012f3f;
+  padding: 10px;
+  border-radius: 4px;
+  min-width: 80px;
+  text-align: center;
+  box-shadow: 0 0 10px #00e676;
+}
+
+#quantum-wrapper {
+  display: none;
+}
